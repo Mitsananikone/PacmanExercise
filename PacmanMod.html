@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PACMAN</title>
+</head>
+
+<style>
+#ball {
+  background-color: black;
+  position: absolute;
+  display: inline-block;
+  border-radius: 50%;
+
+}
+
+</style>
+
+
+<SCRIPT>
+    var pos = 100;
+   
+    const pageWidth = window.innerWidth;
+
+    const pacArray = [
+        ['PacMan1.png', 'PacMan2.png'],
+        ['PacMan3.png', 'PacMan4.png']
+    ];
+    var direction = 0;
+    var focus = 0;
+
+    function Run(pageWidth, pageHeight) {
+        let img = document.getElementById("PacMan");
+       
+        let ball = document.getElementById("ball");
+        img.style.top = pageHeight;
+
+        let imgWidth = img.width;
+
+        const ballPosX = [imgWidth/5, imgWidth/5*2, imgWidth/5*3, imgWidth/5*4, imgWidth/5*5];
+
+        focus = (focus + 1) % 2;
+        
+        direction = checkPageBounds(direction, imgWidth, pos, pageWidth);
+        img.src = pacArray[direction][focus];
+        if (direction) {
+            pos -= 40;
+            img.style.left = pos + "px";
+            ball.style.left = ballPosX + "px";
+        } else {
+            pos += 40;
+            img.style.left = pos + 'px';
+            ball.style.left = ballPosX + "px";
+        }
+    }
+        // Use setTimeout to call Run every 200 millesecs
+    const pageHeight = window.innerHeight;
+    console.log(pageHeight/2);
+    setInterval(function() {Run(pageWidth, pageHeight)}, 100);
+
+
+    function checkPageBounds(direction, imgWidth, pos, pageWidth) {
+        //
+        // Complete this to reverse direction on hitting page bounds
+        // 
+        if (pos >= (pageWidth-imgWidth)) {
+            direction = 1;
+        }
+        else if(pos < 0) {
+            direction = 0;
+        }
+
+        // console.log('direction = ' + direction);
+        // console.log('imgWidth = ' + imgWidth);
+        // console.log('pos = ' + pos);
+        // console.log('pageWidth = ' + pageWidth);
+        
+        return direction;
+
+    }
+</SCRIPT>
+
+<body>
+    <div id="ball"></div>
+    <img id="PacMan" src="PacMan1.png" width='200' onclick="Run()" style="position:absolute"> </img>
+</body>
+
+</html>
